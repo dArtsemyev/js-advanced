@@ -20,9 +20,103 @@ console.log('lesson 2');
 // https://learn.javascript.ru/recursion
 // https://www.youtube.com/watch?v=Kuq6oIN3PH0
 
+// Scope
+// Function // iife
+// Class
+// conditions
+// loops
+// block code
+// tray - catch
+// switch
+
+// let globalScope = {
+//     outerScope: null,
+//     f: 'function',
+//     a: 10,
+//     //b: 'function',
+// }
+//
+// let a = 10;
+//
+// function f() {
+//     let innerScope = {
+//         outerScope: globalScope,
+//         l: 'function',
+//         a: 100,
+//         h: 50,
+//     }
+//     let a = 100;
+//     console.log(a);
+//     let h = 50;
+//     // b();
+//     function l() {
+//         let innerScopel = {
+//             outerScope: innerScope,
+//         }
+//         console.log(h);
+//         console.log(a);
+//     }
+//     l();
+// }
+//
+// f();
+
+// function b() {
+//     let innerScope = {
+//         outerScope: globalScope,
+//         c: 50,
+//     }
+//     let c = 50;
+//     console.log(h);
+// }
+
+let globalScope = {
+    outerScope: null,
+    sum: 'function',
+}
+
+// function sum(a: number) {
+//     let sumScope = {
+//         outerScope: globalScope,
+//         a: undefined,
+//     }
+//     return function (b: number) {
+//         let anonimScope = {
+//             outerScope: sumScope,
+//             b: undefined,
+//         }
+//     }
+// }
+
+// function sum(a: number) {
+//     let sumScope = {
+//         outerScope: globalScope,
+//         a: 15,
+//     }
+//     return function (b: number) {
+//         let anonimScope = {
+//             outerScope: sumScope,
+//             b: 5,
+//         }
+//         a += 5;
+//         console.log(a + b);
+//     }
+// }
+//
+// let resultFunc = sum(10);
+//
+// resultFunc(10)
+// resultFunc(5)
+// resultFunc(25)
 
 // Task 01
 // Реализовать функцию sum которая суммирует 2 числа следующим образом sum(3)(6) === 9
+
+// function sum(a: number) {
+//     return function (b: number) {
+//         return a + b;
+//     }
+// }
 
 // Task 02
 // Реализовать функцию makeCounter которая работает следующим образом:
@@ -32,6 +126,24 @@ console.log('lesson 2');
 // const counter2 = makeCounter();
 // counter2(); // 1
 // counter(); // 3
+
+// function makeCounter() {
+//     let count = 0;
+//     return function () {
+//         return ++count;
+//     }
+// }
+//
+// const counter = makeCounter();
+// console.log(counter());
+// console.log(counter());
+// console.log(counter());
+// console.log(counter());
+// const counter2 = makeCounter();
+// console.log(counter2());
+// console.log(counter2());
+// console.log(counter());
+
 
 // Task 03
 // Переписать функцию из Task 02 так, что бы она принимала число в качестве аргумента и это число было стартовым значением счетчика
@@ -51,6 +163,45 @@ console.log('lesson 2');
 // 5) superSum(3)(2,5)(3) //10
 // 6) superSum(3)(2,5)(3,9) //10
 
+//function superSum(n: number) {
+let superSum = (n: number) => {
+    if (n <= 0) return 0;
+    //if (n === 1) return (num:number) => num;
+    if (n === 1) return function(num: number) {
+        return num;
+    }
+
+    let _args: number[] = [];
+
+    //function helper(...args: number[]) {
+    const helper = (...args: number[]) => {
+        _args = [..._args, ...args];
+        if (_args.length >= n) {
+            _args.length = n;
+            return _args.reduce( (acc, number) => acc + number);
+        }
+        return helper;
+    }
+    return helper;
+}
+
+//const test = () => {
+// function test() {
+//     //@ts-ignore
+//     console.log(arguments[0]);
+// }
+//@ts-ignore
+//test(5, 10, 15);
+
+
+// @ts-ignore
+//console.log(superSum(3)(2)(5)(3));
+// // @ts-ignore
+// console.log(superSum(3)(2,5,3));
+// // @ts-ignore
+// console.log(superSum(3)(2,5)(3,9));
+
+
 // P.S. типизируйте только аргументы, а при вызове функции используйте @ts-ignore
 
 // Task 05
@@ -59,5 +210,38 @@ console.log('lesson 2');
 // Task 06
 // написать функцию, которая повторяет функционал метода flat массива на всю глубину.
 
+// Recursion
+
+// sumTo(1) = 1
+// sumTo(2) = 2 + 1 = 3
+// sumTo(3) = 3 + 2 + 1 = 6
+// sumTo(4) = 4 + 3 + 2 + 1 = 10
+// ...
+// sumTo(100) = 100 + 99 + ... + 2 + 1 = 5050
+
+// function sumToByLoop(n:number) {
+//     let result = 0;
+//     for (let i = 1; i <= n; i++) {
+//         result += i;
+//     }
+//     return result;
+// }
+//console.log(sumToByLoop(100));
+
+// function sumTo(n:number):number {
+//     if (n === 1) return n;
+//     return n + sumTo(n - 1);
+// }
+// console.log(sumTo(3));
+//
+// function sumTo(n:number, acc: number):number {
+//     if (n === 1) return n + acc;
+//     return sumTo(n - 1, acc + n);
+// }
+//
+// console.log(sumTo(3, 0));
+
+
+
 // just a plug
-export default () => {};
+export default Lesson2;
